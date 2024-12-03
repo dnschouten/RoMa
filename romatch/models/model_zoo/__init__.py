@@ -27,7 +27,7 @@ def tiny_roma_v1_outdoor(device, weights = None, xfeat = None):
 
     return tiny_roma_v1_model(weights = weights, xfeat = xfeat).to(device) 
 
-def roma_outdoor(device, weights=None, dinov2_weights=None, coarse_res: Union[int,tuple[int,int]] = 560, upsample_res: Union[int,tuple[int,int]] = 864, amp_dtype: torch.dtype = torch.float16):
+def roma_outdoor(device, weights=None, dinov2_weights=None, dino_version = "v2", coarse_res: Union[int,tuple[int,int]] = 560, upsample_res: Union[int,tuple[int,int]] = 864, amp_dtype: torch.dtype = torch.float16):
     if isinstance(coarse_res, int):
         coarse_res = (coarse_res, coarse_res)
     if isinstance(upsample_res, int):    
@@ -46,7 +46,7 @@ def roma_outdoor(device, weights=None, dinov2_weights=None, coarse_res: Union[in
         dinov2_weights = torch.hub.load_state_dict_from_url(weight_urls["dinov2"],
                                                      map_location=device)
     model = roma_model(resolution=coarse_res, upsample_preds=True,
-               weights=weights,dinov2_weights = dinov2_weights,device=device, amp_dtype=amp_dtype)
+               weights=weights,dinov2_weights = dinov2_weights,dino_version = dino_version,device=device, amp_dtype=amp_dtype)
     model.upsample_res = upsample_res
     print(f"Using coarse resolution {coarse_res}, and upsample res {model.upsample_res}")
     return model

@@ -631,7 +631,7 @@ class RegressionMatcher(nn.Module):
                 hs = self.h_resized
 
                 test_transform = get_tuple_transform_ops(
-                    resize=(hs, ws), normalize=True, clahe=False
+                    resize=(hs, ws), normalize=False, clahe=False
                 )
                 im_A, im_B = test_transform((im_A, im_B))
                 batch = {"im_A": im_A[None].to(device), "im_B": im_B[None].to(device)}
@@ -665,7 +665,7 @@ class RegressionMatcher(nn.Module):
                 finest_corresps = corresps[finest_scale]
                 torch.cuda.empty_cache()
                 test_transform = get_tuple_transform_ops(
-                    resize=(hs, ws), normalize=True
+                    resize=(hs, ws), normalize=False
                 )
                 if isinstance(im_A_input, (str, os.PathLike)):
                     im_A, im_B = test_transform(
